@@ -1,363 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GuardTrack Pro – Smart Patrol Monitoring</title>
-  <meta name="description" content="GPS-tagged patrol photos, guard selfies and instant WhatsApp reports. Built for security professionals. Powered by MSRX." />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GuardTrack Pro — MSRX</title>
+  <meta name="description" content="GPS Photo Patrol & Shift Log for security professionals. iOS.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg:       #080D18;
-      --surface:  #0D1B35;
-      --blue:     #00D4FF;
-      --purple:   #6B3FF6;
-      --white:    #FFFFFF;
-      --muted:    #8899AA;
-      --border:   rgba(0,212,255,0.15);
+      --bg: #ffffff; --surface: #f5f5f7; --border: rgba(0,0,0,0.06);
+      --text: #1d1d1f; --text2: #6e6e73; --text3: #a1a1a6;
+      --gradient: linear-gradient(135deg, #00c4df 0%, #8b5cf6 100%);
     }
-
-    body {
-      background: var(--bg);
-      color: var(--white);
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      line-height: 1.6;
-    }
-
-    /* ── NAV ── */
-    nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 40px;
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      background: rgba(8,13,24,0.92);
-      backdrop-filter: blur(12px);
-      z-index: 99;
-    }
-    .nav-brand { display: flex; align-items: center; gap: 12px; }
-    .nav-brand span { font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
-    .nav-msrx { font-size: 11px; color: var(--blue); letter-spacing: 3px; font-weight: 700; }
-    nav a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 14px;
-      transition: color 0.2s;
-    }
-    nav a:hover { color: var(--blue); }
-
-    /* ── HERO ── */
-    .hero {
-      text-align: center;
-      padding: 100px 24px 80px;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(107,63,246,0.18) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .badge {
-      display: inline-block;
-      background: rgba(0,212,255,0.1);
-      border: 1px solid var(--blue);
-      color: var(--blue);
-      font-size: 11px;
-      letter-spacing: 3px;
-      font-weight: 700;
-      padding: 6px 16px;
-      border-radius: 20px;
-      margin-bottom: 28px;
-    }
-    .hero h1 {
-      font-size: clamp(36px, 6vw, 64px);
-      font-weight: 800;
-      letter-spacing: -1px;
-      line-height: 1.1;
-      margin-bottom: 24px;
-    }
-    .hero h1 span { color: var(--blue); }
-    .hero p {
-      font-size: 18px;
-      color: var(--muted);
-      max-width: 560px;
-      margin: 0 auto 40px;
-    }
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--blue);
-      color: #000;
-      font-weight: 700;
-      font-size: 16px;
-      padding: 16px 36px;
-      border-radius: 50px;
-      text-decoration: none;
-      transition: opacity 0.2s, transform 0.2s;
-    }
-    .btn-primary:hover { opacity: 0.88; transform: translateY(-2px); }
-    .btn-primary svg { width: 22px; height: 22px; }
-
-    /* ── GRID LINE BG ── */
-    .grid-bg {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(30,58,95,0.15) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(30,58,95,0.15) 1px, transparent 1px);
-      background-size: 60px 60px;
-      pointer-events: none;
-    }
-
-    /* ── FEATURES ── */
-    section { padding: 80px 24px; }
-    .section-label {
-      text-align: center;
-      font-size: 11px;
-      letter-spacing: 3px;
-      color: var(--blue);
-      font-weight: 700;
-      margin-bottom: 16px;
-    }
-    section h2 {
-      text-align: center;
-      font-size: clamp(28px, 4vw, 42px);
-      font-weight: 800;
-      margin-bottom: 60px;
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-    .feature-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 32px;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-    .feature-card:hover {
-      border-color: rgba(0,212,255,0.4);
-      transform: translateY(-4px);
-    }
-    .feature-icon {
-      width: 48px;
-      height: 48px;
-      background: rgba(0,212,255,0.1);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      margin-bottom: 20px;
-    }
-    .feature-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
-    .feature-card p  { font-size: 14px; color: var(--muted); line-height: 1.6; }
-
-    /* ── HOW IT WORKS ── */
-    .steps { background: var(--surface); }
-    .steps-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 32px;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    .step { text-align: center; }
-    .step-num {
-      width: 52px;
-      height: 52px;
-      background: linear-gradient(135deg, var(--blue), var(--purple));
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      font-weight: 800;
-      margin: 0 auto 16px;
-    }
-    .step h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
-    .step p  { font-size: 13px; color: var(--muted); }
-
-    /* ── PRIVACY STRIP ── */
-    .privacy-strip {
-      background: rgba(0,212,255,0.05);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      text-align: center;
-      padding: 48px 24px;
-    }
-    .privacy-strip h2 { font-size: 24px; margin-bottom: 12px; }
-    .privacy-strip p  { color: var(--muted); max-width: 560px; margin: 0 auto; }
-
-    /* ── CTA ── */
-    .cta { text-align: center; padding: 100px 24px; }
-    .cta h2 { font-size: clamp(28px, 4vw, 42px); font-weight: 800; margin-bottom: 16px; }
-    .cta p   { color: var(--muted); margin-bottom: 40px; font-size: 16px; }
-
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 32px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-    footer p { font-size: 13px; color: var(--muted); }
-    .footer-links { display: flex; gap: 24px; }
-    .footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; }
-    .footer-links a:hover { color: var(--blue); }
-
-    @media (max-width: 600px) {
-      nav { padding: 16px 20px; }
-      footer { padding: 24px 20px; justify-content: center; text-align: center; }
-    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+    nav { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+    .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo svg { width: 26px; height: 32px; }
+    .nav-logo-text { font-size: 16px; font-weight: 700; color: var(--text); }
+    .nav-links { display: flex; gap: 24px; }
+    .nav-links a { font-size: 14px; color: var(--text2); text-decoration: none; transition: color 0.15s; }
+    .nav-links a:hover { color: var(--text); }
+    .hero { max-width: 1100px; margin: 0 auto; padding: 80px 24px 60px; text-align: center; }
+    .app-icon { width: 120px; height: 120px; border-radius: 28px; box-shadow: 0 8px 40px rgba(0,0,0,0.12); margin: 0 auto 32px; background: linear-gradient(135deg, #3730a3 0%, #00c4df 100%); display: flex; align-items: center; justify-content: center; }
+    .app-icon-text { font-size: 40px; font-weight: 800; color: white; letter-spacing: -0.02em; }
+    .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text3); margin-bottom: 16px; }
+    .hero h1 { font-size: clamp(32px, 5vw, 52px); font-weight: 800; line-height: 1.08; letter-spacing: -0.02em; color: var(--text); margin-bottom: 16px; }
+    .hero h1 span { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero p { font-size: 18px; color: var(--text2); max-width: 520px; margin: 0 auto 36px; line-height: 1.6; }
+    .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 14px; background: var(--gradient); color: white; font-size: 15px; font-weight: 600; text-decoration: none; transition: opacity 0.15s; box-shadow: 0 4px 20px rgba(0,196,223,0.3); }
+    .btn-primary:hover { opacity: 0.88; }
+    .btn-secondary { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 14px; background: var(--surface); color: var(--text); font-size: 15px; font-weight: 500; text-decoration: none; border: 1px solid var(--border); transition: all 0.15s; }
+    .btn-secondary:hover { background: #ebebed; }
+    .features { max-width: 1100px; margin: 0 auto; padding: 60px 24px; }
+    .section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text3); text-align: center; margin-bottom: 48px; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .feature-card { background: var(--surface); border-radius: 20px; padding: 28px; border: 1px solid var(--border); }
+    .feature-icon { font-size: 28px; margin-bottom: 12px; }
+    .feature-card h3 { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+    .feature-card p { font-size: 14px; color: var(--text2); line-height: 1.6; }
+    .divider { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    .divider hr { border: none; border-top: 1px solid var(--border); }
+    footer { max-width: 1100px; margin: 0 auto; padding: 32px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .footer-left { font-size: 13px; color: var(--text3); }
+    .footer-right { display: flex; gap: 20px; }
+    .footer-right a { font-size: 13px; color: var(--text3); text-decoration: none; transition: color 0.15s; }
+    .footer-right a:hover { color: var(--text2); }
+    @media (max-width: 600px) { .hero { padding: 48px 16px 40px; } .features { padding: 40px 16px; } footer { flex-direction: column; align-items: flex-start; } }
   </style>
 </head>
 <body>
-
-<!-- ── GRID BG ── -->
-<div class="grid-bg" style="position:fixed;z-index:0;opacity:0.5;"></div>
-<div style="position:relative;z-index:1;">
-
-<!-- ── NAV ── -->
-<nav>
-  <div class="nav-brand">
-    <div>
-      <div class="nav-msrx">MSRX</div>
-      <span>GuardTrack Pro</span>
+  <nav>
+    <div class="nav-inner">
+      <a href="https://msrx.co.in" class="nav-logo">
+        <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="mg" x1="0" y1="0" x2="100" y2="120" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#00c4df"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient></defs>
+          <path d="M6 110 L6 12 L50 62 L94 12 L94 110 L76 110 L76 46 L50 80 L24 46 L24 110 Z" fill="url(#mg)"/>
+        </svg>
+        <span class="nav-logo-text">MSRX</span>
+      </a>
+      <nav class="nav-links">
+        <a href="https://msrx.co.in/#apps">All Apps</a>
+        <a href="mailto:mrinalsinghraja@gmail.com">Contact</a>
+        <a href="guardtrack-privacy.html">Privacy</a>
+      </nav>
     </div>
-  </div>
-  <div style="display:flex;gap:32px;">
-    <a href="#features">Features</a>
-    <a href="#how">How it works</a>
-    <a href="guardtrack-support.html">Support</a>
-    <a href="guardtrack-privacy.html">Privacy</a>
-  </div>
-</nav>
-
-<!-- ── HERO ── -->
-<div class="hero">
-  <div class="badge">SMART PATROL MONITORING</div>
-  <h1>Every Round.<br /><span>Every Guard.</span><br />Documented.</h1>
-  <p>GPS-tagged patrol photos, guard selfie verification, and instant WhatsApp reports — all stored privately on your device.</p>
-  <a href="https://apps.apple.com/app/guardtrack-pro/id_PLACEHOLDER" class="btn-primary">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-    Download on the App Store
-  </a>
-</div>
-
-<!-- ── FEATURES ── -->
-<section id="features">
-  <div class="section-label">BUILT FOR THE FIELD</div>
-  <h2>Everything a patrol needs</h2>
-  <div class="features-grid">
-    <div class="feature-card">
-      <div class="feature-icon">📍</div>
-      <h3>GPS-Tagged Checkpoints</h3>
-      <p>Every photo is stamped with exact GPS coordinates at the moment of capture. No manual entry — location is locked automatically.</p>
+  </nav>
+  <section class="hero">
+    <div class="app-icon"><span class="app-icon-text">GT</span></div>
+    <p class="eyebrow">iOS &middot; MSRX</p>
+    <h1>GuardTrack Pro<br><span>Patrol. Log. Protect.</span></h1>
+    <p>Professional GPS patrol tracking, photo evidence logging, and shift management built for modern security teams.</p>
+    <div class="cta-row">
+      <a href="https://apps.apple.com/us/app/guardtrack-pro/id6774895956" class="btn-primary" target="_blank" rel="noopener noreferrer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        Download on the App Store
+      </a>
+      <a href="https://msrx.co.in" class="btn-secondary">More MSRX Apps &rarr;</a>
     </div>
-    <div class="feature-card">
-      <div class="feature-icon">📸</div>
-      <h3>Dual-Camera Evidence</h3>
-      <p>Captures a rear location photo and a guard selfie simultaneously at each checkpoint. Proof of presence, every time.</p>
+  </section>
+  <div class="divider"><hr></div>
+  <section class="features">
+    <p class="section-title">Key Features</p>
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon">&#x1F4CD;</div><h3>GPS Patrol Tracking</h3><p>Real-time GPS tracking of patrol routes with accurate timestamps and interactive map views.</p></div>
+      <div class="feature-card"><div class="feature-icon">&#x1F4F8;</div><h3>Photo Evidence Log</h3><p>Capture geotagged photos as irrefutable on-site evidence, automatically organized by shift.</p></div>
+      <div class="feature-card"><div class="feature-icon">&#x1F4CB;</div><h3>Shift Management</h3><p>Clock in and out, assign team members, and manage shifts effortlessly from your iPhone.</p></div>
+      <div class="feature-card"><div class="feature-icon">&#x1F6A8;</div><h3>Incident Reports</h3><p>Create detailed incident reports on-site with photos, notes, and GPS coordinates in seconds.</p></div>
     </div>
-    <div class="feature-card">
-      <div class="feature-icon">🕐</div>
-      <h3>Timestamped Records</h3>
-      <p>Every checkpoint record includes date, time, guard name, and site details — automatically embedded in composite patrol images.</p>
+  </section>
+  <div class="divider"><hr></div>
+  <footer>
+    <p class="footer-left">&copy; 2025 MSRX. All rights reserved.</p>
+    <div class="footer-right">
+      <a href="guardtrack-privacy.html">Privacy Policy</a>
+      <a href="mailto:mrinalsinghraja@gmail.com">Contact</a>
+      <a href="https://msrx.co.in">msrx.co.in</a>
     </div>
-    <div class="feature-card">
-      <div class="feature-icon">📋</div>
-      <h3>Instant WhatsApp Reports</h3>
-      <p>Generate and share a full shift report via WhatsApp in one tap. No email, no uploads, no waiting.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🔒</div>
-      <h3>100% On-Device Privacy</h3>
-      <p>All patrol data stays on your device. No cloud, no server, no subscription. Your evidence belongs to you.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🌙</div>
-      <h3>Night-Ready Dark UI</h3>
-      <p>High-contrast dark interface readable in low light. Portrait-only layout optimized for one-hand use during patrol.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ── HOW IT WORKS ── -->
-<section id="how" class="steps">
-  <div class="section-label">WORKFLOW</div>
-  <h2>Up and running in minutes</h2>
-  <div class="steps-list">
-    <div class="step">
-      <div class="step-num">1</div>
-      <h3>Setup Site</h3>
-      <p>Enter your site name and upload your organization logo.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <h3>Add Guard</h3>
-      <p>Enter the guard's name and capture a reference photo.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <h3>Define Checkpoints</h3>
-      <p>Name each patrol point in your route.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">4</div>
-      <h3>Start Patrol</h3>
-      <p>Capture photo + selfie at each point. GPS locked automatically.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">5</div>
-      <h3>Share Report</h3>
-      <p>Send the full shift report to your supervisor via WhatsApp.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ── PRIVACY STRIP ── -->
-<div class="privacy-strip">
-  <h2>No cloud. No account. No subscription.</h2>
-  <p>All patrol photos, GPS data, and records are stored exclusively on your device. Nothing leaves your phone unless you choose to share it.</p>
-</div>
-
-<!-- ── CTA ── -->
-<div class="cta">
-  <div class="section-label">MSRX · SMART PATROL</div>
-  <h2>Ready to patrol smarter?</h2>
-  <p>Available exclusively on iPhone. Free to download.</p>
-  <a href="https://apps.apple.com/app/guardtrack-pro/id_PLACEHOLDER" class="btn-primary">
-    <svg viewBox="0 0 24 24" fill="currentColor" style="width:22px;height:22px;"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-    Download on the App Store
-  </a>
-</div>
-
-<!-- ── FOOTER ── -->
-<footer>
-  <p>© 2025 MSRX. All rights reserved.</p>
-  <div class="footer-links">
-    <a href="guardtrack-privacy.html">Privacy Policy</a>
-    <a href="guardtrack-support.html">Support</a>
-    <a href="mailto:mrinalsinghraja@gmail.com">Contact</a>
-  </div>
-</footer>
-
-</div><!-- /relative wrapper -->
+  </footer>
 </body>
 </html>
